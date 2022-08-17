@@ -24,13 +24,9 @@ public class GoodsPriceServiceImpl implements GoodsPriceService{
 
     @Override
     public PriceVO getBySkuNo(String skuNo) {
-        PriceVO priceVO=new PriceVO();
-        priceVO.setSkuNo(skuNo);
-        Example<PriceVO> example =Example.of(priceVO);
-        Optional<PriceVO> one = goodsPriceDao.findOne(example);
-        if (one.isPresent()) {
-            PriceVO priceVO1 =   one.get();
-            return priceVO1;
+        PriceVO one = goodsPriceDao.findBySkuNoIs(skuNo);
+        if (one!=null) {
+            return one;
         } else {
             // handle not found, return null or throw
             System.out.println("no exit!");
@@ -45,19 +41,17 @@ public class GoodsPriceServiceImpl implements GoodsPriceService{
 
     @Override
     public void batchInsert(List<PriceVO> priceVOList) {
-        goodsPriceDao.saveAll(priceVOList);
+        for(PriceVO priceVO : priceVOList) {
+            goodsPriceDao.saveAndFlush(priceVO);
+        }
     }
 
     @Override
     public void update(PriceVO priceVO) {
-        PriceVO priceVO1=new PriceVO();
-        priceVO.setSkuNo(priceVO.getSkuNo());
-        Example<PriceVO> example =Example.of(priceVO1);
-        Optional<PriceVO> one = goodsPriceDao.findOne(example);
-        if (one.isPresent()) {
-            PriceVO priceVO2 =   one.get();
-            priceVO.setId(priceVO2.getId());
-            goodsPriceDao.save(priceVO);
+        PriceVO one = goodsPriceDao.findBySkuNoIs(priceVO.getSkuNo());
+        if (one!=null) {
+            priceVO.setId(one.getId());
+            goodsPriceDao.saveAndFlush(priceVO);
         }else{
             goodsPriceDao.save(priceVO);
         }
@@ -66,14 +60,10 @@ public class GoodsPriceServiceImpl implements GoodsPriceService{
     @Override
     public void batchUpdate(List<PriceVO> priceVOList) {
         for(PriceVO priceVO : priceVOList){
-            PriceVO priceVO1=new PriceVO();
-            priceVO.setSkuNo(priceVO.getSkuNo());
-            Example<PriceVO> example =Example.of(priceVO1);
-            Optional<PriceVO> one = goodsPriceDao.findOne(example);
-            if (one.isPresent()) {
-                PriceVO priceVO2 = one.get();
-                priceVO.setId(priceVO2.getId());
-                goodsPriceDao.save(priceVO);
+            PriceVO one = goodsPriceDao.findBySkuNoIs(priceVO.getSkuNo());
+            if (one!=null) {
+                priceVO.setId(one.getId());
+                goodsPriceDao.saveAndFlush(priceVO);
             }else{
                 goodsPriceDao.save(priceVO);
             }

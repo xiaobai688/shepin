@@ -11,9 +11,9 @@ import lombok.Data;
 public class CommonQueryModel {
 
     @JSONField(name = "pageSize")
-    private Integer pageSize = 1;
+    private Integer pageSize = 100;
 
     @JSONField(name = "pageNo")
-    private Integer pageNo = 10;
+    private Integer pageNo = 1;
 
 }

@@ -7,5 +7,5 @@ import java.io.Serializable;
 
 public interface GoodsDao extends JpaRepository<GoodsVO,Long>, Serializable {
 
-
+    GoodsVO findBySkuNoIs(String skuNo);
 }

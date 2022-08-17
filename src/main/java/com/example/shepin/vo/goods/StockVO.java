@@ -15,8 +15,15 @@ public class StockVO implements Serializable {
 
    /** 可卖数*/
    private Integer quantity;
+
    /** 商家编码*/
    private String skuNo;
+
+   /**
+    * 数量差异
+    */
+   @Transient
+   private Integer num;
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)

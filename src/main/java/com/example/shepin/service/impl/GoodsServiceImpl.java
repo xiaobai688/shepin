@@ -24,13 +24,9 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public GoodsVO getBySkuNo(String skuNo) {
-        GoodsVO goodsVO=new GoodsVO();
-        goodsVO.setSkuNo(skuNo);
-        Example<GoodsVO> example =Example.of(goodsVO);
-        Optional<GoodsVO> one = goodsDao.findOne(example);
-        if (one.isPresent()) {
-            GoodsVO goodsVO1 =   one.get();
-            return goodsVO1;
+        GoodsVO bySkuNoIs = goodsDao.findBySkuNoIs(skuNo);
+        if (bySkuNoIs!=null) {
+            return bySkuNoIs;
         } else {
             // handle not found, return null or throw
             System.out.println("no exit!");
@@ -45,19 +41,15 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public void batchInsert(List<GoodsVO> goodsVOList) {
-        goodsDao.saveAll(goodsVOList);
+        goodsDao.saveAllAndFlush(goodsVOList);
     }
 
     @Override
     public void update(GoodsVO goodsVO) {
-        GoodsVO goodsVO1=new GoodsVO();
-        goodsVO.setSkuNo(goodsVO.getSkuNo());
-        Example<GoodsVO> example =Example.of(goodsVO1);
-        Optional<GoodsVO> one = goodsDao.findOne(example);
-        if (one.isPresent()) {
-            GoodsVO goodsVO2 =   one.get();
-            goodsVO.setId(goodsVO2.getId());
-            goodsDao.save(goodsVO);
+        GoodsVO one = goodsDao.findBySkuNoIs(goodsVO.getSkuNo());
+        if (one!=null) {
+            goodsVO.setId(one.getId());
+            goodsDao.saveAndFlush(goodsVO);
         }else{
             goodsDao.save(goodsVO);
         }
@@ -66,14 +58,10 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public void batchUpdate(List<GoodsVO> goodsVOList) {
         for(GoodsVO goodsVO : goodsVOList){
-            GoodsVO goodsVO1=new GoodsVO();
-            goodsVO.setSkuNo(goodsVO.getSkuNo());
-            Example<GoodsVO> example =Example.of(goodsVO1);
-            Optional<GoodsVO> one = goodsDao.findOne(example);
-            if (one.isPresent()) {
-                GoodsVO goodsVO2 =   one.get();
-                goodsVO.setId(goodsVO2.getId());
-                goodsDao.save(goodsVO);
+            GoodsVO one = goodsDao.findBySkuNoIs(goodsVO.getSkuNo());
+            if (one!=null) {
+                goodsVO.setId(one.getId());
+                goodsDao.saveAndFlush(goodsVO);
             }else{
                 goodsDao.save(goodsVO);
             }

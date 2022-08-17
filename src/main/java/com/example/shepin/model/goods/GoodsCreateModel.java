@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -62,4 +63,15 @@ public class GoodsCreateModel extends BaseRequestBizData {
     private String belowGoodsUrl;
     /** 主图*/
     private String sellInfo;
+    /** 关联实际业务明细表的id*/
+    private String relDetailId;
+    /** 入库数量*/
+    private BigDecimal skuCount;
+    /** 是否正品，1是0否*/
+    private Integer isCertified;
+    /** 零售价 */
+    private BigDecimal price1;
+    /** 批发价 */
+    private BigDecimal price2;
+
 }

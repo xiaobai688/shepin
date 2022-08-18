@@ -90,15 +90,15 @@ public class GoodsPriceController extends BaseController{
 
     }
 
-    @Scheduled(cron ="0 0 0 * * ?")
+//    @Scheduled(cron ="0 0 0 * * ?")
     @GetMapping("queryAll")
     public void getAllGoodsPriceList(){
         //查询所有物料
         List<GoodsVO> all = goodsService.getAll();
-        List<GoodsVO> goodsVOS = all.subList(0, 99);
+//        List<GoodsVO> goodsVOS = all.subList(0, 99);
         List<PriceVO> newGoodsPriceList = new ArrayList<>();
-        if(goodsVOS.size()>0) {
-            List<List<GoodsVO>> subs = ListUtils.partition(goodsVOS, 100);
+        if(all.size()>0) {
+            List<List<GoodsVO>> subs = ListUtils.partition(all, 100);
             for (List<GoodsVO> list : subs) {
                 List<String> skuNoList = list.stream().map(GoodsVO::getSkuNo).collect(Collectors.toList());
                 //封装查询参数
